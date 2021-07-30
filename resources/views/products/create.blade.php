@@ -23,7 +23,7 @@
         </div>
     @endif
 
-    <form action="{{ route('products.store') }}" method="POST">
+    <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
     	@csrf
 
          <div class="row">
@@ -57,7 +57,12 @@
             <div class="col-xs-12 col-sm-12 col-md-12">
 		        <div class="form-group">
 		            <strong>Category:</strong>
-                    
+                    <select name="category_id" class="form-control">
+					<option value="">Select Country</option>
+					@foreach ($categories as $category) 
+					<option value="{{$category->id}}">{{$category->name}}</option>
+					@endforeach
+					</select>
 		        </div>
 		    </div>
 

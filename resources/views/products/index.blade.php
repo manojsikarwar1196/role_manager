@@ -26,6 +26,9 @@
             <th>No</th>
             <th>Name</th>
             <th>Description</th>
+            <th>Price</th>
+            <th>Image</th>
+            <th>Category</th>
             <th width="280px">Action</th>
         </tr>
 	    @foreach ($products as $product)
@@ -33,6 +36,9 @@
 	        <td>{{ ++$i }}</td>
 	        <td>{{ $product->name }}</td>
 	        <td>{{ $product->description }}</td>
+            <td>{{ $product->price }}</td>
+	        <td><img src="/product/{{ $product->image }}" width="500px"></td>
+	        <td>{{ $product->category_id }}</td>
 	        <td>
                 <form action="{{ route('products.destroy',$product->id) }}" method="POST">
                     <a class="btn btn-info" href="{{ route('products.show',$product->id) }}">Show</a>

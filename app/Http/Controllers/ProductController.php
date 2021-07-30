@@ -1,7 +1,8 @@
 <?php
     
 namespace App\Http\Controllers;
-    
+
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
     
@@ -38,7 +39,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('products.create');
+        $categories = Category::get();
+        return view('products.create',compact('categories'));
     }
     
     /**
@@ -51,10 +53,22 @@ class ProductController extends Controller
     {
         request()->validate([
             'name' => 'required',
-            'detail' => 'required',
+            'description' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'price' => 'required',
+            'category_id' => 'required',
         ]);
+
+        $input = $request->all();
+
+        if ($image = $request->file('image')) {
+            $destinationPath = 'product/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $input['image'] = "$profileImage";
+        }
     
-        Product::create($request->all());
+        Product::create($input);
     
         return redirect()->route('products.index')
                         ->with('success','Product created successfully.');
@@ -79,7 +93,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return view('products.edit',compact('product'));
+        $categories = Category::get();
+        return view('products.edit',compact('product','categories'));
     }
     
     /**
@@ -94,9 +109,21 @@ class ProductController extends Controller
          request()->validate([
             'name' => 'required',
             'detail' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'price' => 'required',
+            'category' => 'required',
         ]);
+
+        $input = $request->all();
+
+        if ($image = $request->file('image')) {
+            $destinationPath = 'product/';
+            $profileImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $profileImage);
+            $input['image'] = "$profileImage";
+        }
     
-        $product->update($request->all());
+        $product->update($input);
     
         return redirect()->route('products.index')
                         ->with('success','Product updated successfully');

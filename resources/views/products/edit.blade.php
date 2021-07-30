@@ -25,7 +25,7 @@
     @endif
 
 
-    <form action="{{ route('products.update',$product->id) }}" method="POST">
+    <form action="{{ route('products.update',$product->id) }}" method="POST" enctype="multipart/form-data">
     	@csrf
         @method('PUT')
 
@@ -42,6 +42,33 @@
 		            <textarea class="form-control" style="height:150px" name="description" placeholder="Description">{{ $product->description }}</textarea>
 		        </div>
 		    </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+		        <div class="form-group">
+		            <strong>Price:</strong>
+		            <input type="text" class="form-control" name="price" placeholder="Price" value="{{ $product->price }}" >
+		        </div>
+		    </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+		        <div class="form-group">
+		            <strong>Image:</strong>
+		            <input type="file" class="form-control" name="image" value="{{ $product->image }}" >
+		        </div>
+		    </div>
+
+            <div class="col-xs-12 col-sm-12 col-md-12">
+		        <div class="form-group">
+		            <strong>Category:</strong>
+                    <select name="category_id" class="form-control">
+					<option value="">Select Country</option>
+					@foreach ($categories as $category) 
+					<option value="{{$category->id}}">{{$category->name}}</option>
+					@endforeach
+					</select>
+		        </div>
+		    </div>
+
 		    <div class="col-xs-12 col-sm-12 col-md-12 text-center">
 		      <button type="submit" class="btn btn-primary">Submit</button>
 		    </div>
